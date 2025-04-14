@@ -1,33 +1,36 @@
-class User(BaseModel):
+from . import BaseModel
+from . import date
+
+class UserSchema(BaseModel):
     user_id: str
     username: str
     email: str
     hashed_password: str
     is_active: bool = True
 
-class Reader(BaseModel):
+class ReaderSchema(BaseModel):
     user_id: str
     role: str
 
-class Librarian(BaseModel):
+class LibrarianSchema(BaseModel):
     user_id: str
     role: str
 
-class Admin(BaseModel):
+class AdminSchema(BaseModel):
     user_id: str
     role: str
 
-class Book(BaseModel):
+class BookSchema(BaseModel):
     book_id: str
     book_title: str
     author: str
     year_published: int
     genre: str
 
-class Borrow_Records(BaseModel):
+class Borrow_Records_Schema(BaseModel):
     record_id: str
     book_id: str
     user_id: str
-    borrow_date: str
-    return_date: str
+    borrow_date: date
+    return_date: date
     status: str

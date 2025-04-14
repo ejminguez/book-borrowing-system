@@ -20,10 +20,14 @@ def db_connect():
 
     DATABASE_URL = os.getenv("DATABASE_URL")
 
-
-    # Create the database engine
-    engine = create_engine(DATABASE_URL)
-
+    try:
+        # Create the database engine
+        engine = create_engine(DATABASE_URL)
+        print("Database connection established.")
+    except Exception as e:
+        print(f"Error connecting to the database: {e}")
+        raise e
+    
     return engine
 
 engine = db_connect()
