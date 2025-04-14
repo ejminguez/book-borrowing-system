@@ -14,6 +14,6 @@ def get_books(db: Session = Depends(get_db)):
     """
     try:
         books = supabase.table("books").select("*").execute()
-        return books
+        return books.data
     except Exception as e:
         raise HTTPException(status_code=500, detail="Error fetching books from Supabase")
