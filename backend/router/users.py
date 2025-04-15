@@ -8,12 +8,13 @@ from supabase_client import supabase
 router = APIRouter()
 
 @router.get("/users")
-def get_users():
+def get_users(db: Session = Depends(get_db)):
     """
     Get all users from the database.
     """
-    response = supabase.table("users").select("*").execute()
-
-    if response.error:
+    try:
+        response = supabase.table("users").select("*").execute()
+    except Exception as e:
+        print("Error fetching users: ", e)
         raise HTTPException(status_code=500, detail="Error Fetching Users from Supabase")
     return response.data
