@@ -31,3 +31,14 @@ def get_books_by_id(book_id: str, db:Session = Depends(get_db)):
     except Exception as e:
         print("Error fetching book: ", e)
         raise HTTPException(status_code=500, detail="Error fetching book from Supabase")
+
+@router.post("/books")
+def create_book(book: BookSchema):
+    try:
+        response = supabase.table("books").insert(book.dict()).execute()
+        return response.data
+    except Exception as e:
+        print("❌ Insert error:", e)
+        raise HTTPException(status_code=500, detail="Could not insert book")
+
+    print("Book inserted successfully!")

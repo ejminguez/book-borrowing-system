@@ -1,8 +1,19 @@
-from sqlalchemy import Column, Date, String, ForeignKey, text
-from . import Base
-from database import engine
+from sqlalchemy import Column, Date, String, ForeignKey, text, Enum as SQLAlchemyEnum
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
+from enum import Enum
+from database import Base
+
+class RoleEnum(str, Enum):
+    reader = "reader"
+    librarian = "librarian"
+    admin = "admin"
+
+class StatusEnum(str, Enum):
+    borrowed = "borrowed"
+    returned = "returned"
+    lost = "lost"
+    damaged = "damaged"
 
 class User(Base):
     __tablename__ = "users"
@@ -11,25 +22,8 @@ class User(Base):
     username = Column(String, unique=True, nullable=False)
     email = Column(String, unique=True, nullable=False)
     hashed_password = Column(String, nullable=False)
-    is_active = Column(String, default=True)  # Changed to String to match the schema
-
-class Reader(Base):
-    __tablename__ = "readers"
-
-    user_id = Column(UUID(as_uuid=True), ForeignKey("users.user_id"), primary_key=True)
-    role = Column(String, default="reader")
-
-class Librarian(Base):
-    __tablename__ = "librarians"
-
-    user_id = Column(UUID(as_uuid=True), ForeignKey("users.user_id"), primary_key=True)
-    role = Column(String, default="librarian")
-
-class Admin(Base):
-    __tablename__ = "admins"
-
-    user_id = Column(UUID(as_uuid=True), ForeignKey("users.user_id"), primary_key=True)
-    role = Column(String, default="admin")
+    is_active = Column(String, default=True)
+    role = Column(SQLAlchemyEnum(RoleEnum, name="role_enum"), nullable=False, default=RoleEnum.reader)
 
 class Book(Base):
     __tablename__ = "books"
@@ -48,4 +42,4 @@ class Borrow_Records(Base):
     user_id = Column(UUID(as_uuid=True), ForeignKey("users.user_id"), nullable=False)
     borrow_date = Column(Date, nullable=False)
     return_date = Column(Date, nullable=True)
-    status = Column(String, default="borrowed")  # Changed to String to match the schema
+    status = Column(SQLAlchemyEnum(StatusEnum, name="status_enum"), nullable=False, default=StatusEnum.borrowed)
