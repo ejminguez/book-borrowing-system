@@ -12,9 +12,6 @@ Query all books
 """
 @router.get("/books")
 def get_books(db: Session = Depends(get_db)):
-    """
-    Get all books from the database.
-    """
     try:
         books = supabase.table("books").select("*").execute()
         return books.data
@@ -26,9 +23,6 @@ Query a single book by ID
 """
 @router.get("/books/{book_id}")
 def get_books_by_id(book_id: str, db:Session = Depends(get_db)):
-    """
-    Get a book by its ID.
-    """
     try:
         book = supabase.table("books").select("*").eq("book_id", book_id).single().execute()
         if not book.data:
@@ -38,6 +32,7 @@ def get_books_by_id(book_id: str, db:Session = Depends(get_db)):
         print("Error fetching book: ", e)
         raise HTTPException(status_code=500, detail="Error fetching book from Supabase")
 
+# for admins only
 @router.post("/books")
 def create_book(book: BookSchema):
     try:

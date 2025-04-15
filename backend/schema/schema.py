@@ -15,7 +15,6 @@ class StatusEnumSchema(BaseModel):
 class UserSchema(BaseModel):
     username: str
     email: str
-    hashed_password: str
     is_active: bool = True
     role: str
 

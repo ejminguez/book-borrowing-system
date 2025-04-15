@@ -21,7 +21,6 @@ class User(Base):
     user_id = Column(UUID(as_uuid=True), primary_key=True, server_default=text("gen_random_uuid()"), nullable=False)
     username = Column(String, unique=True, nullable=False)
     email = Column(String, unique=True, nullable=False)
-    hashed_password = Column(String, nullable=False)
     is_active = Column(String, default=True)
     role = Column(SQLAlchemyEnum(RoleEnum, name="role_enum"), nullable=False, default=RoleEnum.reader)
 
