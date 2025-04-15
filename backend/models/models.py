@@ -43,3 +43,9 @@ class Borrow_Records(Base):
     borrow_date = Column(Date, nullable=False)
     return_date = Column(Date, nullable=True)
     status = Column(SQLAlchemyEnum(StatusEnum, name="status_enum"), nullable=False, default=StatusEnum.borrowed)
+
+"""
+to do:
+- add a column to the books table to store the number of copies available
+- add a separate table for genres
+"""

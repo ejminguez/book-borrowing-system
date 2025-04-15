@@ -7,6 +7,9 @@ from supabase_client import supabase
 
 router = APIRouter()
 
+"""
+Query all books
+"""
 @router.get("/books")
 def get_books(db: Session = Depends(get_db)):
     """
@@ -18,6 +21,9 @@ def get_books(db: Session = Depends(get_db)):
     except Exception as e:
         raise HTTPException(status_code=500, detail="Error fetching books from Supabase")
 
+"""
+Query a single book by ID
+"""
 @router.get("/books/{book_id}")
 def get_books_by_id(book_id: str, db:Session = Depends(get_db)):
     """
@@ -42,3 +48,27 @@ def create_book(book: BookSchema):
         raise HTTPException(status_code=500, detail="Could not insert book")
 
     print("Book inserted successfully!")
+
+
+"""
+Query a single book by author
+"""
+# @router.get("/books/{author_name}")
+
+
+"""
+Query a single book by title
+"""
+# @router.get("/books/{title}")
+
+
+"""
+Query all books by year
+"""
+# @router.get("/books/{year_published}")
+
+
+"""
+Query all books by genre
+"""
+# @router.get("/books/genre")
