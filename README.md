@@ -1,13 +1,15 @@
 # Book Borrowing System
+
+## 📝 Description
 I created this project to practice RBAC (Role-Based Access Control). \
 There are 3 roles: reader, librarian, and admin.
 
-### Tech Stack:
+## 🛠️ Technology Stack
 - FastAPI
 - Supabase database
 - Vite + React
 
-### Features
+## ✨ Features
 
 #### Reader
 Readers can only do the following:
