@@ -1,1 +1,1 @@
-from .models import User, Book, Borrow_Records, RoleEnum, StatusEnum
+from .models import User, Book, Borrow_Records, RoleEnum, StatusEnum, Genre

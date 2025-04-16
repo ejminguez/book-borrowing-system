@@ -22,7 +22,13 @@ class BookSchema(BaseModel):
     book_title: str
     author: str
     year_published: str
-    genre: str
+
+class GenreSchema(BaseModel):
+    genre_name: str
+
+class Book_Genre_Schema(BaseModel):
+    book_id: str
+    genre_id: int
 
 class Borrow_Records_Schema(BaseModel):
     book_id: str

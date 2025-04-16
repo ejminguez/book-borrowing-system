@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Date, String, ForeignKey, text, Enum as SQLAlchemyEnum
+from sqlalchemy import Column, Date, String, ForeignKey, text, Enum as SQLAlchemyEnum, Integer
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
 from enum import Enum
@@ -31,7 +31,19 @@ class Book(Base):
     book_title = Column(String, nullable=False)
     author = Column(String, nullable=False)
     year_published = Column(Date, nullable=False)
-    genre = Column(String, nullable=False)
+    #genre = Column(String, nullable=False)
+
+class Genre(Base):
+    __tablename__ = "genres"
+
+    genre_id = Column(UUID(as_uuid=True), primary_key=True, server_default=text("gen_random_uuid()"), nullable=False)
+    genre_name = Column(String, nullable=False)
+
+class Book_Genre(Base):
+    __tablename__ = "book_genre"
+
+    book_id = Column(UUID(as_uuid=True), ForeignKey("books.book_id"), primary_key=True, nullable=False)
+    genre_id = Column(UUID(as_uuid=True), ForeignKey("genres.genre_id"), primary_key=True, nullable=False)
 
 class Borrow_Records(Base):
     __tablename__ = "borrow_records"

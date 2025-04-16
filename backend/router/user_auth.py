@@ -24,8 +24,6 @@ class SignInRequest(BaseModel):
 class SignUpRequest(BaseModel):
     email: str
     password: str
-    username: str
-    role: str
 
 @router.post("/signin")
 def sign_in(data: SignInRequest):
@@ -46,7 +44,6 @@ def sign_in(data: SignInRequest):
 
 @router.post("/signup")
 def sign_up(data: SignUpRequest):
-    # Step 1: Create user via Supabase Auth
     auth_response = requests.post(
         f"{SUPABASE_URL}/auth/v1/signup",
         headers={
@@ -67,27 +64,9 @@ def sign_up(data: SignUpRequest):
     if auth_response.status_code != 200:
         raise HTTPException(status_code=400, detail=auth_response.json())
 
-    auth_json = auth_response.json()
-    user_id = auth_json.get("id")  # Because it's at the top level
+    print("Signed up successfully.")
+    raise HTTPException(status_code=200, detail="User signed up successfully")
 
-    if not user_id:
-        raise HTTPException(status_code=500, detail="Failed to retrieve user ID after signup.")
-
-    """
-    Bug: Permission denied when inserting into public.users
-    Sign up is successful, but inserting into public.users fails with permission denied error.
-    """
-    # Step 2: Insert into public.users using supabase-py client
-    try:
-        response = supabase.table("users").insert({
-            "user_id": user_id,
-            "username": data.username,
-            "email": data.email,
-            "is_active": True,
-            "role": data.role
-        }).execute()
-    except Exception as e:
-        print("Insert Error:", e)
-        raise HTTPException(status_code=500, detail="Error inserting user profile into public.users")
-
-    return {"message": "User successfully registered 🎉", "user_id": user_id}
+"""
+Checks if user is signed up and returns user data.
+"""

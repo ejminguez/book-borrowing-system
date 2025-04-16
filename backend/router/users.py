@@ -18,3 +18,17 @@ def get_users(db: Session = Depends(get_db)):
         print("Error fetching users: ", e)
         raise HTTPException(status_code=500, detail="Error Fetching Users from Supabase")
     return response.data
+
+@router.post("/users", response_model=UserSchema)
+def create_user(user: UserSchema, db: Session = Depends(get_db)):
+    try:
+        response = supabase.table("users").insert(user.dict()).execute()
+    except Exception as e:
+        print("Error creating user: ", e)
+        raise HTTPException(status_code=500, detail="Error Creating User in Supabase")
+
+    # Ensure response.data is not empty and return the first item
+    if response.data:
+        return response.data[0]
+    else:
+        raise HTTPException(status_code=500, detail="Failed to create user.")
