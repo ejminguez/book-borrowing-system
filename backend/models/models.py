@@ -31,6 +31,7 @@ class Book(Base):
     book_title = Column(String, nullable=False)
     author = Column(String, nullable=False)
     year_published = Column(Date, nullable=False)
+    copies_available = Column(Integer, nullable=False, default=1)
     #genre = Column(String, nullable=False)
 
 class Genre(Base):
@@ -58,5 +59,4 @@ class Borrow_Records(Base):
 """
 to do:
 - add a column to the books table to store the number of copies available
-- add a separate table for genres
 """

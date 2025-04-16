@@ -17,6 +17,11 @@ def get_genres(db: Session = Depends(get_db)):
     
     raise HTTPException(status_code=200, detail="Genres fetched successfully")
 
+
+"""
+Create a single genre
+This is for admin roles only (for implementing RBAC later)
+"""
 @router.post("/genres")
 def create_genre(genre: GenreSchema):
     try:

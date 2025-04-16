@@ -4,8 +4,16 @@ from database import get_db
 from models import Book
 from schema import BookSchema
 from supabase_client import supabase
+from pydantic import BaseModel
+from typing import Optional
 
 router = APIRouter()
+
+class UpdateBookSchema(BaseModel):
+    book_title: Optional[str] = None
+    author: Optional[str] = None
+    year_published: Optional[str] = None
+    copies_available: Optional[int] = None
 
 """
 Query all books
@@ -58,7 +66,10 @@ def get_books_by_id(book_id: str, db:Session = Depends(get_db)):
         print("Error fetching book: ", e)
         raise HTTPException(status_code=500, detail="Error fetching book from Supabase")
 
-# for admins only
+"""
+Create a new book
+This is for admin roles only (for implementing RBAC later)
+"""
 @router.post("/books")
 def create_book(book: BookSchema):
     try:
@@ -70,4 +81,24 @@ def create_book(book: BookSchema):
 
     print("Book inserted successfully!")
 
+"""
+Update a book by ID
+This is for admin roles only (for implementing RBAC later)
+"""
+@router.put("/books/{book_id}")
+def update_book_by_idk(book_id: str, book: UpdateBookSchema):
+    try:
+        update_data = {key: value for key, value in book.dict().items() if value is not None}
 
+        if not update_data:
+            raise HTTPException(status_code=400, detail="No fields provided for update")
+        
+        response = supabase.table("books").update(update_data).eq("book_id", book_id).execute()
+
+        if not response.data:
+            raise HTTPException(status_code=404, detail="Book not found")
+
+        return response.data
+    except Exception as e:
+        print("❌ Update error:", e)
+        raise HTTPException(status_code=500, detail="Could not update book")

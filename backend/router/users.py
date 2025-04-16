@@ -7,6 +7,10 @@ from supabase_client import supabase
 
 router = APIRouter()
 
+"""
+These routes are accessible to all roles.
+"""
+
 @router.get("/users")
 def get_users(db: Session = Depends(get_db)):
     """

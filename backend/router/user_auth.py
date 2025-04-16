@@ -25,6 +25,11 @@ class SignUpRequest(BaseModel):
     email: str
     password: str
 
+
+"""
+These routes are accessible to all roles.
+"""
+
 @router.post("/signin")
 def sign_in(data: SignInRequest):
     response = requests.post(

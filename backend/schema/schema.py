@@ -22,6 +22,7 @@ class BookSchema(BaseModel):
     book_title: str
     author: str
     year_published: str
+    copies_available: int = 1
 
 class GenreSchema(BaseModel):
     genre_name: str

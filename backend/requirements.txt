@@ -1,6 +1,6 @@
-FastAPI
-Supabase
-SQLAlchemy
+fastAPI
+supabase
+sqlalchemy
 uvicorn
 psycopg2
 python-dotenv
