@@ -19,6 +19,32 @@ def get_books(db: Session = Depends(get_db)):
         raise HTTPException(status_code=500, detail="Error fetching books from Supabase")
 
 """
+Query books by title, author, or year published
+"""
+@router.get("/books/search")
+def search_books(
+    book_title: str = None,
+    author_name: str = None,
+    year_published: str = None,
+    db: Session = Depends(get_db),
+):
+    try:
+        query = supabase.table("books").select("*")
+
+        if book_title:
+            query = query.eq("book_title", book_title)
+        if author_name:
+            query = query.eq("author_name", author_name)
+        if year_published:
+            query = query.eq("year_published", year_published)
+
+        books = query.execute()
+        return books.data
+    except Exception as e:
+        print("Error fetching books: ", e)
+        raise HTTPException(status_code=500, detail="Error fetching books from Supabase")
+
+"""
 Query a single book by ID
 """
 @router.get("/books/{book_id}")
@@ -45,25 +71,3 @@ def create_book(book: BookSchema):
     print("Book inserted successfully!")
 
 
-"""
-Query a single book by author
-"""
-# @router.get("/books/{author_name}")
-
-
-"""
-Query a single book by title
-"""
-# @router.get("/books/{title}")
-
-
-"""
-Query all books by year
-"""
-# @router.get("/books/{year_published}")
-
-
-"""
-Query all books by genre
-"""
-# @router.get("/books/genre")
