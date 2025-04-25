@@ -1,5 +1,6 @@
 from . import BaseModel
 from . import date
+from . import EmailStr
 
 class RoleEnumSchema(BaseModel):
     reader: str = "reader"
@@ -14,7 +15,7 @@ class StatusEnumSchema(BaseModel):
 
 class UserSchema(BaseModel):
     username: str
-    email: str
+    email: EmailStr
     is_active: bool = True
     role: str
 

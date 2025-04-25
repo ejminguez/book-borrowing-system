@@ -6,6 +6,7 @@ from schema import BookSchema
 from supabase_client import supabase
 from pydantic import BaseModel
 from typing import Optional
+from auth.dependencies import require_role
 
 router = APIRouter()
 
@@ -70,7 +71,7 @@ def get_books_by_id(book_id: str, db:Session = Depends(get_db)):
 Create a new book
 This is for admin roles only (for implementing RBAC later)
 """
-@router.post("/books")
+@router.post("/books", dependencies=[Depends(require_role("admin"))])
 def create_book(book: BookSchema):
     try:
         response = supabase.table("books").insert(book.dict()).execute()

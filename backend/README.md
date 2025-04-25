@@ -11,3 +11,7 @@ This is a docs for all my progress, ideas, and future features to add.
 - borrow books logic: a user can send a request to borrow books, then a librarian can issue the books to the user
 - middlewares
 - rbac (role-based access control)
+
+### [20.04.2025]
+- only librarians can add genre
+- I want to implement "borrowing logic"
