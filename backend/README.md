@@ -15,3 +15,7 @@ This is a docs for all my progress, ideas, and future features to add.
 ### [20.04.2025]
 - only librarians can add genre
 - I want to implement "borrowing logic"
+
+### [26.04.2025]
+- I still haven't implemented the access control
+- blockers: invalid tokens? invalid signature?
