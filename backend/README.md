@@ -1,5 +1,4 @@
-# Documentation for all
-
+# Documentation
 ## Description
 This is a docs for all my progress, ideas, and future features to add.
 
